@@ -1,6 +1,6 @@
 import express from 'express';
 import fileUpload from 'express-fileupload';
-import {criarImagem, mostrarImagem} from './controllers/ImagemController.js'
+import {criarImagem, deletarImagem, editarImagem, mostrarImagem, mostrarImagens} from './controllers/ImagemController.js'
 const app = express();
 const porta = 5000;
 
@@ -9,10 +9,15 @@ app.get('/', (req, res)=>{
 });
 
 app.use(fileUpload());
+app.use(express.json());
 
 app.get('/public/:nomeImg', mostrarImagem);
 //CRUD Imagem
 app.post('/imagem', criarImagem);
+app.get('/imagem', mostrarImagens);
+app.get('/imagem/:id_imagem');
+app.put('/imagem/:id_imagem', editarImagem);
+app.delete('/imagem/:id_imagem', deletarImagem);
 
 app.listen(porta, ()=>{
     console.log(`API Rodando na porta ${porta}`)
