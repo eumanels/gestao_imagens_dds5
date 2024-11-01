@@ -1,6 +1,6 @@
 import path from 'path';
 import url from 'url';
-import { createImagem, deleteImagem, readImagem, updateImagem } from '../models/ImagemModel.js';
+import { createImagem, deleteImagem, readImagem, showOneImage, updateImagem } from '../models/ImagemModel.js';
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -83,5 +83,18 @@ export async function deletarImagem(req, res) {
         res.status(status).json(resposta);
     } catch (error) {
         res.status(500).json({message:'ImagemController :: Erro'});
+    }
+}
+
+export async function mostrarUmaImagem(req,res) {
+    console.log('ImagemContoller mostrarUmaImagem');
+    const {id_imagem} = req.params;
+
+    try {
+        const [status, resposta]= await showOneImage(id_imagem);
+        res.status(status).json(resposta);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json(error);
     }
 }

@@ -75,3 +75,20 @@ export async function deleteImagem(id_imagem) {
         return[500, error];
     }
 }
+
+export async function showOneImage(id_imagem) {
+    const conexao = mysql.createPool(db);
+    console.log('ImagemModel :: showOneImage');
+    const sql = 'SELECT * FROM imagens WHERE id_imagem = ?';
+    
+    const params = [id_imagem];
+
+    try {
+        const [retorno] = await conexao.query(sql, params);
+        console.log('Mostrando uma Imagem');
+        return[200, retorno[0]];
+    } catch (error) {
+        console.log(error);
+        return[500, error];
+    }
+}
