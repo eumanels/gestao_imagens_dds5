@@ -31,13 +31,12 @@ function GestaoImagem() {
 
     async function getNomeFuncao(id_usuario) {
         try {
-            const [resposta] = await fetch(`http://localhost:5000/usuario/${id_usuario}`,{
-                method:'GET'
-            });
-            if(resposta){
-                console.log(resposta);
-                setLogin(resposta.login);
-                setFuncao(resposta.funcao);
+            const [resposta] = await fetch(`http://localhost:5000/usuario/${id_usuario}`);
+            const dados = await resposta.json();
+            if(dados){
+                console.log(dados);
+                // setLogin(resposta.login);
+                // setFuncao(resposta.funcao);
             }
         } catch (error) {
             console.log(error);
