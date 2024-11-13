@@ -103,6 +103,11 @@ function GestaoImagem() {
         }
     }
 
+    function logout(){
+        localStorage.removeItem('id_usuario');
+        navigate('/login');
+    }
+
     return (
         <>
             <div>
@@ -112,11 +117,13 @@ function GestaoImagem() {
                     <ul>
                         <li>Inicio</li>
                     </ul>
+                    <button className='btn btn-danger' onClick={logout}>Logout</button>
                 </nav>
             </div>
             <div className='container'>
                 <h1 className='text-center'>Gestão Imagens</h1>
                 <h2>{`Bem Vindo ${login}`}</h2>
+                <h3>{funcao === 'ADM' && 'Você é administrador'}</h3>
                 <div>
                     <h2>Cadastrar Imagem</h2>
                     <label htmlFor="">Descrições</label>
