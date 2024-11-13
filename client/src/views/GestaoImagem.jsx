@@ -1,14 +1,48 @@
 import React, { useEffect, useState } from 'react'
+import {useNavigate} from 'react-router-dom';
 
 function GestaoImagem() {
     const [imagens, setImagens] = useState([]);
     const [imagem, setImagem] = useState(null);
     const [descricao, setDescricao] = useState('');
+    const [idUsuario, setIdUsuario] = useState('');
+    const navigate = useNavigate();
+    const [login, setLogin] = useState('');
+    const [funcao, setFuncao] = useState('');
     
 
     useEffect(() => {
-        carregarImagens()
+        carregarImagens();
+        if(idUsuario === ''){
+            try {
+              const id_usuario = localStorage.getItem('id_usuario');
+              if(!id_usuario){
+                alert('Efetue Login');
+                navigate('/login');
+              }else{
+                setIdUsuario(id_usuario);
+                getNomeFuncao(id_usuario);
+              }
+            } catch (error) {
+                console.log('');
+            }
+        }
     }, []);
+
+    async function getNomeFuncao(id_usuario) {
+        try {
+            const [resposta] = await fetch(`http://localhost:5000/usuario/${id_usuario}`,{
+                method:'GET'
+            });
+            if(resposta){
+                console.log(resposta);
+                setLogin(resposta.login);
+                setFuncao(resposta.funcao);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     async function carregarImagens() {
         try {
@@ -83,6 +117,7 @@ function GestaoImagem() {
             </div>
             <div className='container'>
                 <h1 className='text-center'>Gestão Imagens</h1>
+                <h2>{`Bem Vindo ${login}`}</h2>
                 <div>
                     <h2>Cadastrar Imagem</h2>
                     <label htmlFor="">Descrições</label>
